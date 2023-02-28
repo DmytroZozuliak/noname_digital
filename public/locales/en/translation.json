@@ -1,0 +1,59 @@
+{
+  "language" : {
+    "en": "en",
+    "ua": "uk"
+  },
+  "buttons": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "back": "Back",
+    "goods": "Goods",
+    "home": "Home",
+    "profile": "Profile",
+    "login": "Log in",
+    "more": "download more"
+  },
+  "errors": {
+    "default": "Something went wrong. Try to reload the page",
+    "popup": "Sorry, something went wrong, try to re-open me :)"
+  },
+  "welcome_page": {
+    "project": "Welcome",
+    "about": "To visit profile page please login as:",
+    "cv": "To learn more about me you can visit my ",
+    "cv_name": "CV",
+    "repository": "Repository of current work: ",
+    "repository_name": "link"
+  },
+  "profile_page": {
+    "title": "You entered as \"{{ userName }}\""
+  },
+  "goods_page": {
+    "input_placeholder": "Search in title..."
+  },
+  "forms": {
+    "auth": {
+      "title_sin": "Log In",
+      "username": "Username",
+      "password": "Password",
+      "success": "You successfully logged in!",
+      "username_required": "Username is required",
+      "username_letters": "Username should contain only letters and numbers",
+      "username_min": "Username must be 4 or more characters",
+      "username_max": "Username must be 15 characters or less",
+      "password_whitespaces": "Password mustn't contain the whitespaces",
+      "password_required": "Password is required",
+      "password_characters": "Password mustn't contain the following characters '@, #, $, %, ^, &, *'",
+      "password_min": "Password must be 4 or more characters"
+    }
+  },
+  "header": {
+    "logOutProfile": "Log out",
+    "signInProfile": "Log in",
+    "burgerMenu": "Menu"
+  },
+  "snack_message": {
+    "success_user": "Successfully logged in",
+    "failed_user": "Username or password are incorrect"
+  }
+}
