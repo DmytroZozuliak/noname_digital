@@ -4,12 +4,12 @@ import { Box } from '@mui/system';
 import React, { useState } from 'react';
 import { stringAvatar } from '../../../../utils/functions';
 import { useTypedDispatch, useTypedSelector } from '../../../../hooks/redux';
-import { userActions } from '../../../../store/reducers/userSlice';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useNavigate } from 'react-router-dom';
 import { RoutePath } from '../../../../utils/constants/routes';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../../../firebase';
+import { snackActions } from '../../../../store/reducers/snackSlice';
 
 const AuthLogo = () => {
   const dispatch = useTypedDispatch();
@@ -28,19 +28,15 @@ const AuthLogo = () => {
   const handleLogOut = async () => {
     try {
       await signOut(auth);
-      //sign out successful
-      console.log('sign out successful');
     } catch (error) {
       if (error instanceof Error) {
-        // error happened
+        dispatch(snackActions.openErrorSnack(error.message));
       }
     }
 
     navigate(RoutePath.Home);
     handleCloseUserMenu();
   };
-
-  console.log('userPhoto', userPhoto);
 
   return (
     <Box sx={{ flexGrow: 0 }}>

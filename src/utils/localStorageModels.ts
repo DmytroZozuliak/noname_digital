@@ -25,3 +25,4 @@ export const themeStorage = new Storage(LocalStorage.Theme);
 export const searchGoodsStorage = new Storage(LocalStorage.SearchGoods);
 export const categoryGoodsStorage = new Storage(LocalStorage.CategoryGoods);
 export const sortGoodsStorage = new Storage(LocalStorage.SortGoods);
+export const shoppingCartStorage = new Storage(LocalStorage.ShoppingCart);

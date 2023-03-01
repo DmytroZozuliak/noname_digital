@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import { apiPlaceholder } from '../../api/api';
 import { GoodsResponse, GoodsResponseData } from '../../interfaces/apiInterfaces';
+import { shoppingCartStorage } from '../../utils/localStorageModels';
 
 export const fetchGoods = createAsyncThunk('goods/fetchGoods', async (_: undefined, thunkAPI) => {
   try {
@@ -10,7 +11,6 @@ export const fetchGoods = createAsyncThunk('goods/fetchGoods', async (_: undefin
         limit: 100,
       },
     });
-    console.log('goods data', goods.data.products);
 
     return goods.data.products;
   } catch (err) {
@@ -22,10 +22,6 @@ export const fetchGoods = createAsyncThunk('goods/fetchGoods', async (_: undefin
     }
   }
 });
-// interface ProductCart {
-//   id: number;
-//   count: number;
-// }
 
 interface GoodsState {
   goods: GoodsResponseData[];
@@ -34,11 +30,13 @@ interface GoodsState {
   shoppingCart: Record<string, number>;
 }
 
+const initialShopCart: Record<string, number> = JSON.parse(shoppingCartStorage.getItem() || '{}');
+
 const initialState: GoodsState = {
   goods: [],
   status: 'init',
   isFetched: false,
-  shoppingCart: {},
+  shoppingCart: initialShopCart,
 };
 
 const goodsSlice = createSlice({
@@ -56,6 +54,8 @@ const goodsSlice = createSlice({
       } else {
         state.shoppingCart[id] = state.shoppingCart[id] + 1;
       }
+
+      shoppingCartStorage.setItem(JSON.stringify(state.shoppingCart));
     },
     removeProductFromCart(state, action: PayloadAction<{ id: number }>) {
       const id = action.payload.id;
@@ -65,6 +65,8 @@ const goodsSlice = createSlice({
       }
 
       state.shoppingCart[id] = state.shoppingCart[id] - 1;
+
+      shoppingCartStorage.setItem(JSON.stringify(state.shoppingCart));
     },
   },
   extraReducers: (builder) =>

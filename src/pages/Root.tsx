@@ -3,20 +3,27 @@ import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { auth } from '../firebase';
 import { useTypedDispatch, useTypedSelector } from '../hooks/redux';
+import { fetchGoods, goodsActions } from '../store/reducers/goodsSlice';
 import { snackActions } from '../store/reducers/snackSlice';
 import { userActions } from '../store/reducers/userSlice';
 import routes from '../utils/constants/routes';
 
 const Root = () => {
   const isLogged = useTypedSelector((state) => state.user.isLogged);
+  const isFetched = useTypedSelector((state) => state.goods.isFetched);
   const dispatch = useTypedDispatch();
 
   useEffect(() => {
+    if (!isFetched) {
+      dispatch(fetchGoods());
+      dispatch(goodsActions.isFetched(true));
+    }
+  }, [dispatch, isFetched]);
+
+  useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      console.log('user onAuthStateChanged', user);
       if (user) {
         const { email, displayName, photoURL } = user;
-        // set up user dispatch
         const userInfo = {
           userName: displayName,
           email,
@@ -25,7 +32,6 @@ const Root = () => {
         dispatch(userActions.logIn(userInfo));
         dispatch(snackActions.openSuccessSnack('Successfully logged in'));
       } else {
-        // set up user dispatch null
         dispatch(userActions.logOut());
       }
     });

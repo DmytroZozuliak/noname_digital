@@ -19,8 +19,6 @@ const Profile = () => {
     return accum;
   }, 0);
 
-  console.log('amountTotal', amountTotal);
-
   return (
     <ErrorBoundary text="Something went wrong. Try to reload the page">
       <Stack my="20px">
@@ -31,7 +29,7 @@ const Profile = () => {
           <Typography variant="h4" my={5}>
             Shopping cart:
           </Typography>
-          {amountTotal !== 0 ? (
+          {cartArray.length !== 0 ? (
             <>
               <Typography>Your shopping cart:</Typography>
               {cartArray.map(([id, amount]) => (

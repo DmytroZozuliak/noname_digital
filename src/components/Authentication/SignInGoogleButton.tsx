@@ -1,11 +1,13 @@
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import GoogleButton from 'react-google-button';
 import { auth } from '../../firebase';
-import { useTypedSelector } from '../../hooks/redux';
+import { useTypedDispatch, useTypedSelector } from '../../hooks/redux';
+import { snackActions } from '../../store/reducers/snackSlice';
 import { themeMode } from '../../theme/theme';
 
 const SignInGoogleButton = () => {
   const theme = useTypedSelector((state) => state.settings.theme);
+  const dispatch = useTypedDispatch();
 
   const signInWithGoogle = async () => {
     try {
@@ -13,7 +15,7 @@ const SignInGoogleButton = () => {
       await signInWithPopup(auth, provider);
     } catch (error) {
       if (error instanceof Error) {
-        console.log('error when using sign with google', error.message);
+        dispatch(snackActions.openErrorSnack(error.message));
       }
     }
   };

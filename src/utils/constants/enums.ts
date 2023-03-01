@@ -4,6 +4,7 @@ export enum LocalStorage {
   Theme = 'theme',
   CategoryGoods = 'categoryGoods',
   SortGoods = 'sortGoods',
+  ShoppingCart = 'shoppingCartProducts',
 }
 
 export enum SelectSort {

@@ -14,6 +14,7 @@ const ShoppingCartItem = ({ id, amount }: ShoppingCartItemProps) => {
   const goods = useTypedSelector((state) => state.goods.goods);
   const dispatch = useTypedDispatch();
   const product = goods.find((el) => el.id === id);
+
   if (!product) return null;
 
   const addToCartHandler = () => {

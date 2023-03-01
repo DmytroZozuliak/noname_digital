@@ -35,8 +35,6 @@ const GoodsPage = () => {
 
   const [search, setSearch] = useState(() => searchGoodsStorage.getItem() || '');
   const [category, setCategory] = useState(() => categoryGoodsStorage.getItem() || '');
-  // const [price, setPrice] = useState(() => priceGoodsStorage.getItem() || '');
-  // const [rating, setRating] = useState(() => ratingGoodsStorage.getItem() || '');
   const [sortGoods, setSortGoods] = useState(() => sortGoodsStorage.getItem() || '');
 
   const debouncedSearch = useDebounceValue(search);
@@ -89,12 +87,12 @@ const GoodsPage = () => {
     sortGoodsStorage.setItem(value);
   };
 
-  useEffect(() => {
-    if (!isFetched) {
-      dispatch(fetchGoods());
-      dispatch(goodsActions.isFetched(true));
-    }
-  }, [dispatch, isFetched]);
+  // useEffect(() => {
+  //   if (!isFetched) {
+  //     dispatch(fetchGoods());
+  //     dispatch(goodsActions.isFetched(true));
+  //   }
+  // }, [dispatch, isFetched]);
 
   const renderList = () => {
     if (status === 'error') {
@@ -175,9 +173,6 @@ const GoodsPage = () => {
       </Stack>
 
       <Stack spacing={{ xs: 2, md: 3 }} my={4}>
-        {userPhoto && (
-          <Avatar imgProps={{ referrerPolicy: 'no-referrer' }} alt="logo" src={userPhoto} />
-        )}
         {renderList()}
       </Stack>
     </ErrorBoundary>
