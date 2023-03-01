@@ -11,7 +11,3 @@
 **5. Material-UI v5** is a simple and customizable component library to build faster, beautiful, and more accessible React applications.
 
 **6. React router DOM v6** is a library that allows to use routes in your projects to render multiple pages with SPA.
-
-**7. SASS** is a preprocessor scripting language that is interpreted or compiled into CSS.
-
-**8. @react-i18next** is a powerful internationalization framework for React / React Native which is based on i18next. The module provides multiple components eg. to assert that needed translations get loaded or that your content gets rendered when the language changes.

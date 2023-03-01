@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Avatar, IconButton, Stack, TextField, Typography } from '@mui/material';
+import { Avatar, Button, IconButton, Stack, TextField, Typography } from '@mui/material';
 import { VisibilityOff, Visibility } from '@mui/icons-material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -8,7 +8,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { FormValues } from '../../../interfaces/formInterfaces';
 import { useTypedDispatch, useTypedSelector } from '../../../hooks/redux';
 import { userActions } from '../../../store/reducers/userSlice';
-import { useTranslation } from 'react-i18next';
 import { snackActions } from '../../../store/reducers/snackSlice';
 import { RoutePath } from '../../../utils/constants/routes';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
@@ -16,7 +15,7 @@ import { useValidationSchema } from '../../../hooks/useValidationSchema';
 import { mockFormData } from '../../../utils/constants/auth';
 import GoogleButton from 'react-google-button';
 import { themeMode } from '../../../theme/theme';
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth } from '../../../firebase';
 import SignInGoogleButton from '../SignInGoogleButton';
 
@@ -26,7 +25,6 @@ const AuthenticationForm = () => {
 
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
-  const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
   const theme = useTypedSelector(state => state.settings.theme)
 
@@ -39,7 +37,7 @@ const AuthenticationForm = () => {
   } = useForm<FormValues>({
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      username: '',
+      email: '',
       password: '',
     },
   });
@@ -48,53 +46,34 @@ const AuthenticationForm = () => {
     setShowPassword((prevState) => !prevState);
   };
 
-  const onSubmit: SubmitHandler<FormValues> = ({ username, password }) => {
+  const onSubmit: SubmitHandler<FormValues> = async ({ email, password }) => {
 
-    // if (username !== mockFormData.username || password !== mockFormData.password) {
+    // if (email !== mockFormData.email || password !== mockFormData.password) {
     //   dispatch(snackActions.openErrorSnack(t('snack_message.failed_user')));
     //   return;
     // }
 
-    // dispatch(userActions.logIn({ name: username }));
+    // dispatch(userActions.logIn({ name: email }));
     // dispatch(snackActions.openSuccessSnack(t('snack_message.success_user')));
     // navigate(RoutePath.Profile, { replace: true });
 
+    try {
+      if (login) {
+        // Log in (sign in)
+        await signInWithEmailAndPassword(auth, email, password)
+      } else {
+        // Sign up
+        await createUserWithEmailAndPassword(auth, email, password)
+      }
+      navigate(RoutePath.Profile, { replace: true });
 
-    if (login) {
-      // Log in (sign in)
-      signInWithEmailAndPassword(auth, username, password).then(userCredential => {
-        const user = userCredential.user
-        console.log('User created', user)
-        // set USer, dispatch
-      }).catch(err => console.log(err))
-    } else {
-      // Sign up (create new user)
-      createUserWithEmailAndPassword(auth, username, password).then(userCredential => {
-        const user = userCredential.user
-        console.log('User created', user)
-        // set USer, dispatch
-      }).catch(err => console.log(err))
-
+    } catch (error) {
+      if (error instanceof Error) {
+        dispatch(snackActions.openErrorSnack(error.message));
+      }
     }
 
   };
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      console.log("user", user);
-      if (user) {
-        // set up user dispatch
-      } else {
-        // set up user dispatch null
-      }
-
-    })
-
-    return () => {
-      unsubscribe()
-    }
-  }, [auth])
-
 
   return (
     <Stack
@@ -115,16 +94,16 @@ const AuthenticationForm = () => {
         {login ? 'LOG IN' : "SIGN UP"}
       </Typography>
       <Controller
-        name="username"
+        name="email"
         control={control}
         render={({ field }) => (
           <TextField
             {...field}
             fullWidth
             sx={{ mb: '10px', minHeight: '80px' }}
-            label={t('forms.auth.username')}
-            error={Boolean(errors.username?.message)}
-            helperText={errors.username?.message}
+            label="Email"
+            error={Boolean(errors.email?.message)}
+            helperText={errors.email?.message}
           />
         )}
       />
@@ -138,7 +117,7 @@ const AuthenticationForm = () => {
             sx={{ mb: '10px', minHeight: '80px' }}
             autoComplete="on"
             type={showPassword ? 'text' : 'password'}
-            label={t(`forms.auth.password`)}
+            label="Password"
             error={Boolean(errors.password?.message)}
             helperText={errors.password?.message}
             InputProps={{
@@ -157,7 +136,7 @@ const AuthenticationForm = () => {
         )}
       />
       <LoadingButton type="submit" sx={{ mt: 2, px: 5, fontSize: '18px' }} variant="contained">
-        {t('buttons.submit')}
+        Submit
       </LoadingButton>
 
       <Stack flexDirection="row" justifyContent="space-between" alignItems="center">

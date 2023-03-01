@@ -3,8 +3,6 @@ import HomeIcon from '@mui/icons-material/Home';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import LanguageSwitch from './components/LanguageSwitch';
 import AuthLogo from './components/AuthLogo';
 import ThemeSwitcher from './components/ThemeSwitcher';
 import Burger from './components/Burger';
@@ -13,7 +11,6 @@ import { RoutePath } from '../../../utils/constants/routes';
 
 const Header = () => {
   const isLogged = useTypedSelector((state) => state.user.isLogged);
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -57,7 +54,7 @@ const Header = () => {
                 startIcon={<HomeIcon />}
                 color="inherit"
               >
-                {t(`buttons.home`)}
+                Home
               </Button>
               <Button
                 className={btnNavigationClass(RoutePath.Goods)}
@@ -65,7 +62,7 @@ const Header = () => {
                 startIcon={<DashboardIcon />}
                 color="inherit"
               >
-                {t(`buttons.goods`)}
+                Goods
               </Button>
               {isLogged && (
                 <Button
@@ -74,7 +71,7 @@ const Header = () => {
                   startIcon={<AccountBoxIcon />}
                   color="inherit"
                 >
-                  {t(`buttons.profile`)}
+                  Profile
                 </Button>
               )}
             </Box>
@@ -82,7 +79,6 @@ const Header = () => {
             <Box sx={{ display: 'flex', alignItems: 'center', columnGap: '20px', ml: 'auto' }}>
               <Box sx={{ display: { xs: 'none', md: 'flex' }, columnGap: '20px' }}>
                 <ThemeSwitcher />
-                <LanguageSwitch />
               </Box>
               {isLogged ? (
                 <AuthLogo />
@@ -92,7 +88,7 @@ const Header = () => {
                   color="inherit"
                   className={'header-btn'}
                 >
-                  {t('buttons.login')}
+                  Log in
                 </Button>
               )}
             </Box>

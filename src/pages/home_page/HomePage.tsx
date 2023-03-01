@@ -1,20 +1,18 @@
 import { Box, Stack, Typography } from '@mui/material';
 import picture from '../../assets/images/2.png';
-import { useTranslation } from 'react-i18next';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import { mockFormData } from '../../utils/constants/auth';
 import { developer } from '../../utils/constants/developer';
 import Link from '@mui/material/Link';
 
 const Home = () => {
-  const { t } = useTranslation();
-  const { password, username } = mockFormData;
+  const { password, email } = mockFormData;
 
   return (
-    <ErrorBoundary text={t('errors.default')}>
+    <ErrorBoundary text="Something went wrong. Try to reload the page">
       <Stack marginTop={3}>
         <Typography variant="h3" fontSize={{ xs: 30, sm: 40, md: 50 }}>
-          {t('welcome_page.project')}
+          Welcome
         </Typography>
         <Stack
           direction={{ xs: 'column', md: 'row' }}
@@ -23,13 +21,7 @@ const Home = () => {
         >
           <Stack sx={{ order: { xs: 2, md: 1 } }}>
             <Typography variant="body2" fontSize={22}>
-              {t('welcome_page.about')}
-            </Typography>
-            <Typography color="warning.main" fontSize={22}>
-              {t('forms.auth.username')} - {username}
-            </Typography>
-            <Typography color="warning.main" fontSize={22}>
-              {t('forms.auth.password')} - {password}
+              about
             </Typography>
           </Stack>
           <Box width={{ xs: '100%', md: '700px' }} sx={{ order: { xs: 1, md: 2 } }}>
@@ -37,20 +29,20 @@ const Home = () => {
           </Box>
         </Stack>
         <Typography mt={3} variant="body1">
-          {t('welcome_page.repository')}
+          Repository of current work:
           <Link
             href={developer.currentTaskRepository}
             target="_blank"
             rel="noreferrer"
             underline="none"
           >
-            {t('welcome_page.repository_name')}
+            link
           </Link>
         </Typography>
         <Typography mt={2} variant="body1">
-          {t('welcome_page.cv')}
+          To learn more about me you can visit my
           <Link href={developer.cv} target="_blank" rel="noreferrer" underline="none">
-            {t('welcome_page.cv_name')}
+            CV
           </Link>
         </Typography>
       </Stack>

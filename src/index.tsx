@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 import App from './App';
 import Loader from './components/Loader';
 import { store } from './store/store';
-import './utils/i18n';
 import "./firebase";
 import './index.scss';
 

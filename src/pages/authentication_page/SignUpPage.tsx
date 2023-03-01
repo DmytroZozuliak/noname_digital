@@ -1,6 +1,5 @@
 import { Container, Stack } from '@mui/material';
 import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import AuthenticationForm from '../../components/Authentication/AuthenticationForm';
 import SignInGoogleButton from '../../components/Authentication/SignInGoogleButton';
@@ -11,7 +10,6 @@ import { RoutePath } from '../../utils/constants/routes';
 const SignUpPage = () => {
   const isLogged = useTypedSelector((state) => state.user.isLogged);
   const navigate = useNavigate();
-  const { t } = useTranslation();
 
   useEffect(() => {
     if (isLogged) {
@@ -20,7 +18,7 @@ const SignUpPage = () => {
   }, [isLogged, navigate]);
 
   return (
-    <ErrorBoundary text={t('errors.default')}>
+    <ErrorBoundary text="Something went wrong. Try to reload the page">
       <Container maxWidth="sm" sx={{ marginTop: 5 }}>
         <AuthenticationForm />
       </Container>

@@ -2,18 +2,19 @@ import { Avatar, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/ma
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Box } from '@mui/system';
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { stringAvatar } from '../../../../utils/functions';
 import { useTypedDispatch, useTypedSelector } from '../../../../hooks/redux';
 import { userActions } from '../../../../store/reducers/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { RoutePath } from '../../../../utils/constants/routes';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../../../firebase';
 
 const AuthLogo = () => {
-  const { t } = useTranslation();
   const dispatch = useTypedDispatch();
   const navigate = useNavigate();
-  const userName = useTypedSelector((state) => state.user.userName);
+  const email = useTypedSelector((state) => state.user.email);
+  const userPhoto = useTypedSelector((state) => state.user.userPhoto);
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -23,17 +24,39 @@ const AuthLogo = () => {
     setAnchorElUser(null);
   };
 
-  const handleLogOut = () => {
-    dispatch(userActions.logOut());
+  const handleLogOut = async () => {
+    try {
+
+      await signOut(auth)
+      //sign out successful
+      console.log("sign out successful");
+    } catch (error) {
+      if (error instanceof Error) {
+        // error happened
+
+      }
+    }
+
     navigate(RoutePath.Home);
     handleCloseUserMenu();
   };
 
+  console.log("userPhoto", userPhoto);
+
+
   return (
     <Box sx={{ flexGrow: 0 }}>
-      <Tooltip title={userName}>
+      <Tooltip title={email}>
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar>{userName && stringAvatar(userName)}</Avatar>
+          {userPhoto ?
+            <Avatar
+              alt="logo"
+              imgProps={{ referrerPolicy: "no-referrer" }}
+              src={userPhoto}
+            />
+            :
+            <Avatar>{email && stringAvatar(email)}</Avatar>
+          }
         </IconButton>
       </Tooltip>
       <Menu
@@ -55,7 +78,7 @@ const AuthLogo = () => {
         <MenuItem onClick={handleLogOut}>
           <LogoutIcon fontSize="small" />
           <Typography marginLeft={2} textAlign="center">
-            {t('header.logOutProfile')}
+            Log out
           </Typography>
         </MenuItem>
       </Menu>

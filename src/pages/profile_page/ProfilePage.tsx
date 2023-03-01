@@ -1,14 +1,12 @@
 import { Stack, Typography } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import { useTypedSelector } from '../../hooks/redux';
 
 const Profile = () => {
-  const { t } = useTranslation();
-  const userName = useTypedSelector((state) => state.user.userName);
+  const email = useTypedSelector((state) => state.user.email);
 
   return (
-    <ErrorBoundary text={t('errors.default')}>
+    <ErrorBoundary text="Something went wrong. Try to reload the page">
       <Stack
         position="relative"
         my="20px"
@@ -17,7 +15,7 @@ const Profile = () => {
         alignItems="center"
       >
         <Typography variant="h6" align="center" fontSize={{ xs: 26, md: 34 }}>
-          {t('profile_page.title', { userName })}
+          You entered as {email}
         </Typography>
       </Stack>
     </ErrorBoundary>

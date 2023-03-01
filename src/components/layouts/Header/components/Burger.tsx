@@ -13,13 +13,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
 import { Box } from '@mui/system';
 import ThemeSwitcher from './ThemeSwitcher';
-import LanguageSwitch from './LanguageSwitch';
-import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from '../../../../hooks/redux';
 
 const Burger = () => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
-  const { t } = useTranslation();
   const theme = useTypedSelector((state) => state.settings.theme);
 
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -36,15 +33,14 @@ const Burger = () => {
   const renderList = () => (
     <Box>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Typography sx={{ ml: '10px' }}>{t(`header.burgerMenu`)}</Typography>
+        <Typography sx={{ ml: '10px' }}>
+          Menu
+        </Typography>
         <Button onClick={() => setIsOpenDrawer(false)}>
           <CloseIcon sx={{ color: theme === 'dark' ? 'white' : 'black' }} />
         </Button>
       </Stack>
       <List>
-        <ListItem>
-          <LanguageSwitch />
-        </ListItem>
         <ListItem>
           <ThemeSwitcher />
         </ListItem>

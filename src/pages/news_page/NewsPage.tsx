@@ -1,8 +1,7 @@
-import { Button, Input, Stack, Typography } from '@mui/material';
+import { Avatar, Button, Input, Stack, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useMemo, useState } from 'react';
 import { Box } from '@mui/system';
-import { useTranslation } from 'react-i18next';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import NewsCard from '../../components/NewsCard';
 import { useTypedDispatch, useTypedSelector } from '../../hooks/redux';
@@ -11,16 +10,17 @@ import { useDebounceValue } from '../../hooks/useDebounceValue';
 import { searchNewsStorage } from '../../utils/localStorageModels';
 
 const Boards = () => {
-  const { news, status, page, isFetched } = useTypedSelector((state) => state.news);
+  const userPhoto = useTypedSelector((state) => state.user.userPhoto);
+
+  // const { news, status, page, isFetched } = useTypedSelector((state) => state.news);
   const dispatch = useTypedDispatch();
   const [search, setSearch] = useState(() => searchNewsStorage.getItem() || '');
   const [focused, setFocused] = useState(false);
-  const { t } = useTranslation();
   const debouncedSearch = useDebounceValue(search);
 
-  const filteredDate = useMemo(() => {
-    return news.filter((news) => news.title.includes(debouncedSearch));
-  }, [debouncedSearch, news]);
+  // const filteredDate = useMemo(() => {
+  //   return news.filter((news) => news.title.includes(debouncedSearch));
+  // }, [debouncedSearch, news]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -28,36 +28,36 @@ const Boards = () => {
     searchNewsStorage.setItem(value);
   };
 
-  useEffect(() => {
-    if (!isFetched) {
-      dispatch(fetchNews(1));
-      dispatch(newsActions.isFetched(true));
-    }
-  }, [dispatch, isFetched]);
+  // useEffect(() => {
+  //   if (!isFetched) {
+  //     dispatch(fetchNews(1));
+  //     dispatch(newsActions.isFetched(true));
+  //   }
+  // }, [dispatch, isFetched]);
 
-  const handleMoreRequest = () => {
-    dispatch(newsActions.addPage(page + 1));
-    dispatch(fetchNews(page + 1));
-  };
+  // const handleMoreRequest = () => {
+  //   dispatch(newsActions.addPage(page + 1));
+  //   dispatch(fetchNews(page + 1));
+  // };
 
-  const renderList = () => {
-    if (status === 'error') {
-      return <Typography variant="h4">Something went wrong</Typography>;
-    }
-    return (
-      <>
-        {filteredDate.map((item) => (
-          <NewsCard key={item.id} news={item} />
-        ))}
-        <Button variant="contained" color="secondary" onClick={handleMoreRequest}>
-          {t('buttons.more')}
-        </Button>
-      </>
-    );
-  };
+  // const renderList = () => {
+  //   if (status === 'error') {
+  //     return <Typography variant="h4">Something went wrong</Typography>;
+  //   }
+  //   return (
+  //     <>
+  //       {filteredDate.map((item) => (
+  //         <NewsCard key={item.id} news={item} />
+  //       ))}
+  //       <Button variant="contained" color="secondary" onClick={handleMoreRequest}>
+  //         {t('buttons.more')}
+  //       </Button>
+  //     </>
+  //   );
+  // };
 
   return (
-    <ErrorBoundary text={t('errors.default')}>
+    <ErrorBoundary text="Something went wrong. Try to reload the page">
       <Stack
         position="relative"
         my="20px"
@@ -67,7 +67,7 @@ const Boards = () => {
       >
         <Input
           sx={{ paddingLeft: 4, fontSize: 24 }}
-          placeholder={t('goods_page.input_placeholder')}
+          placeholder="find goods"
           value={search}
           onChange={handleChange}
           onFocus={() => setFocused(true)}
@@ -79,7 +79,14 @@ const Boards = () => {
       </Stack>
 
       <Stack spacing={{ xs: 2, md: 3 }} my={4}>
-        {renderList()}
+        {userPhoto &&
+          < Avatar
+            imgProps={{ referrerPolicy: "no-referrer" }}
+            alt="logo"
+            src={userPhoto}
+          />
+        }
+        {/* {renderList()} */}
       </Stack>
     </ErrorBoundary>
   );
