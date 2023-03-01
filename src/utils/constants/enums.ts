@@ -2,9 +2,13 @@ export enum LocalStorage {
   User = 'email',
   SearchGoods = 'searchGoods',
   Theme = 'theme',
+  CategoryGoods = 'categoryGoods',
+  SortGoods = 'sortGoods',
 }
 
 export enum SelectSort {
-  inc = 'increment',
-  dec = 'decrement',
+  incPrice = 'incrementPrice',
+  decPrice = 'decrementPrice',
+  incRating = 'incrementRating',
+  decRating = 'decrementRating',
 }

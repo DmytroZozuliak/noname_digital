@@ -8,8 +8,7 @@ class Storage {
   }
 
   setItem(value: string | null): void {
-    if (!value) return;
-    localStorage.setItem(this.storageItem, value);
+    localStorage.setItem(this.storageItem, value || '');
   }
 
   getItem(): string | null {
@@ -24,3 +23,5 @@ class Storage {
 export const userStorage = new Storage(LocalStorage.User);
 export const themeStorage = new Storage(LocalStorage.Theme);
 export const searchGoodsStorage = new Storage(LocalStorage.SearchGoods);
+export const categoryGoodsStorage = new Storage(LocalStorage.CategoryGoods);
+export const sortGoodsStorage = new Storage(LocalStorage.SortGoods);

@@ -17,7 +17,11 @@ import GoodsCard from '../../components/GoodsCard';
 import { useTypedDispatch, useTypedSelector } from '../../hooks/redux';
 import { fetchGoods, goodsActions } from '../../store/reducers/goodsSlice';
 import { useDebounceValue } from '../../hooks/useDebounceValue';
-import { searchGoodsStorage } from '../../utils/localStorageModels';
+import {
+  categoryGoodsStorage,
+  searchGoodsStorage,
+  sortGoodsStorage,
+} from '../../utils/localStorageModels';
 import Loader from '../../components/Loader';
 import { categories } from '../../utils/constants/categories';
 import { SelectSort } from '../../utils/constants/enums';
@@ -27,13 +31,15 @@ const GoodsPage = () => {
 
   const { goods, status, isFetched } = useTypedSelector((state) => state.goods);
   const dispatch = useTypedDispatch();
-  const [search, setSearch] = useState(() => searchGoodsStorage.getItem() || '');
   const [focused, setFocused] = useState(false);
-  const debouncedSearch = useDebounceValue(search);
 
-  const [category, setCategory] = useState('');
-  const [price, setPrice] = useState('');
-  const [rating, setRating] = useState('');
+  const [search, setSearch] = useState(() => searchGoodsStorage.getItem() || '');
+  const [category, setCategory] = useState(() => categoryGoodsStorage.getItem() || '');
+  // const [price, setPrice] = useState(() => priceGoodsStorage.getItem() || '');
+  // const [rating, setRating] = useState(() => ratingGoodsStorage.getItem() || '');
+  const [sortGoods, setSortGoods] = useState(() => sortGoodsStorage.getItem() || '');
+
+  const debouncedSearch = useDebounceValue(search);
 
   const filteredDate = useMemo(() => {
     return goods
@@ -43,42 +49,44 @@ const GoodsPage = () => {
         return searchFiltered && searchCategory;
       })
       .sort((a, b) => {
-        if (price === SelectSort.dec) {
+        if (sortGoods === SelectSort.decPrice) {
           if (a.price > b.price) return 1;
           if (a.price < b.price) return -1;
         }
-        if (price === SelectSort.inc) {
+
+        if (sortGoods === SelectSort.incPrice) {
           if (a.price < b.price) return 1;
           if (a.price > b.price) return -1;
         }
-        return 0;
-      })
-      .sort((a, b) => {
-        if (rating === SelectSort.dec) {
+
+        if (sortGoods === SelectSort.decRating) {
           if (a.rating > b.rating) return 1;
           if (a.rating < b.rating) return -1;
         }
-        if (rating === SelectSort.inc) {
+
+        if (sortGoods === SelectSort.incRating) {
           if (a.rating < b.rating) return 1;
           if (a.rating > b.rating) return -1;
         }
         return 0;
       });
-  }, [category, debouncedSearch, goods, price, rating]);
+  }, [category, debouncedSearch, goods, sortGoods]);
 
   const handleChangeCategory = (e: SelectChangeEvent) => {
-    setCategory(e.target.value);
+    const value = e.target.value;
+    setCategory(value);
+    categoryGoodsStorage.setItem(value);
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearch(value);
     searchGoodsStorage.setItem(value);
   };
-  const handleChangePrice = (e: SelectChangeEvent) => {
-    setPrice(e.target.value);
-  };
-  const handleChangeRating = (e: SelectChangeEvent) => {
-    setRating(e.target.value);
+
+  const handleSortGoods = (e: SelectChangeEvent) => {
+    const value = e.target.value;
+    setSortGoods(value);
+    sortGoodsStorage.setItem(value);
   };
 
   useEffect(() => {
@@ -98,9 +106,11 @@ const GoodsPage = () => {
 
     return (
       <Grid container spacing={{ xs: 2, md: 3 }}>
-        {filteredDate.map((item) => (
-          <GoodsCard key={item.id} goods={item} />
-        ))}
+        {filteredDate.length > 0 ? (
+          filteredDate.map((item) => <GoodsCard key={item.id} goods={item} />)
+        ) : (
+          <Typography m={4}>No matches</Typography>
+        )}
       </Grid>
     );
   };
@@ -113,6 +123,8 @@ const GoodsPage = () => {
         direction="row"
         justifyContent="space-between"
         alignItems="center"
+        flexWrap="wrap"
+        gap={3}
       >
         <Input
           sx={{ fontSize: 24 }}
@@ -144,29 +156,20 @@ const GoodsPage = () => {
         </FormControl>
 
         <FormControl variant="standard" sx={{ minWidth: 150 }}>
-          <InputLabel id="select-price">Price</InputLabel>
-          <Select labelId="select-price" value={price} onChange={handleChangePrice} label="Price">
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={SelectSort.inc}>From high to low</MenuItem>
-            <MenuItem value={SelectSort.dec}>From low to high</MenuItem>
-          </Select>
-        </FormControl>
-
-        <FormControl variant="standard" sx={{ minWidth: 150 }}>
-          <InputLabel id="select-rating">Rating</InputLabel>
+          <InputLabel id="select-rating">Sort by</InputLabel>
           <Select
             labelId="select-rating"
-            value={rating}
-            onChange={handleChangeRating}
+            value={sortGoods}
+            onChange={handleSortGoods}
             label="Rating"
           >
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            <MenuItem value={SelectSort.inc}>From high to low</MenuItem>
-            <MenuItem value={SelectSort.dec}>From low to high</MenuItem>
+            <MenuItem value={SelectSort.decPrice}>Price dec</MenuItem>
+            <MenuItem value={SelectSort.incPrice}>Price inc</MenuItem>
+            <MenuItem value={SelectSort.decRating}>Rating dec</MenuItem>
+            <MenuItem value={SelectSort.incRating}>Rating inc</MenuItem>
           </Select>
         </FormControl>
       </Stack>
