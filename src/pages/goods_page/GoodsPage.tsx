@@ -1,5 +1,4 @@
 import {
-  Avatar,
   FormControl,
   Grid,
   Input,
@@ -11,11 +10,10 @@ import {
   Typography,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import GoodsCard from '../../components/GoodsCard';
 import { useTypedDispatch, useTypedSelector } from '../../hooks/redux';
-import { fetchGoods, goodsActions } from '../../store/reducers/goodsSlice';
 import { useDebounceValue } from '../../hooks/useDebounceValue';
 import {
   categoryGoodsStorage,
@@ -27,10 +25,7 @@ import { categories } from '../../utils/constants/categories';
 import { SelectSort } from '../../utils/constants/enums';
 
 const GoodsPage = () => {
-  const userPhoto = useTypedSelector((state) => state.user.userPhoto);
-
-  const { goods, status, isFetched } = useTypedSelector((state) => state.goods);
-  const dispatch = useTypedDispatch();
+  const { goods, status } = useTypedSelector((state) => state.goods);
   const [focused, setFocused] = useState(false);
 
   const [search, setSearch] = useState(() => searchGoodsStorage.getItem() || '');
@@ -86,13 +81,6 @@ const GoodsPage = () => {
     setSortGoods(value);
     sortGoodsStorage.setItem(value);
   };
-
-  // useEffect(() => {
-  //   if (!isFetched) {
-  //     dispatch(fetchGoods());
-  //     dispatch(goodsActions.isFetched(true));
-  //   }
-  // }, [dispatch, isFetched]);
 
   const renderList = () => {
     if (status === 'error') {
