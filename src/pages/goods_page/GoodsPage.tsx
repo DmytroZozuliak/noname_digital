@@ -13,7 +13,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useMemo, useState } from 'react';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import GoodsCard from '../../components/GoodsCard';
-import { useTypedDispatch, useTypedSelector } from '../../hooks/redux';
+import { useTypedSelector } from '../../hooks/redux';
 import { useDebounceValue } from '../../hooks/useDebounceValue';
 import {
   categoryGoodsStorage,

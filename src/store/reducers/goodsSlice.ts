@@ -68,6 +68,9 @@ const goodsSlice = createSlice({
 
       shoppingCartStorage.setItem(JSON.stringify(state.shoppingCart));
     },
+    removeCartProducts(state) {
+      state.shoppingCart = {};
+    },
   },
   extraReducers: (builder) =>
     builder

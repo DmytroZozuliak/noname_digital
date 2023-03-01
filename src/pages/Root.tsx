@@ -33,6 +33,7 @@ const Root = () => {
         dispatch(snackActions.openSuccessSnack('Successfully logged in'));
       } else {
         dispatch(userActions.logOut());
+        dispatch(goodsActions.removeCartProducts());
       }
     });
 

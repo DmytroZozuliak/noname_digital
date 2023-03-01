@@ -1,5 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { userStorage } from '../../utils/localStorageModels';
+import {
+  categoryGoodsStorage,
+  searchGoodsStorage,
+  shoppingCartStorage,
+  sortGoodsStorage,
+  userStorage,
+} from '../../utils/localStorageModels';
 
 export interface User {
   isLogged: boolean;
@@ -32,6 +38,10 @@ const userSlice = createSlice({
       state.userName = null;
       state.userPhoto = null;
       userStorage.removeItem();
+      searchGoodsStorage.removeItem();
+      categoryGoodsStorage.removeItem();
+      sortGoodsStorage.removeItem();
+      shoppingCartStorage.removeItem();
     },
   },
 });
