@@ -1,5 +1,10 @@
 export enum LocalStorage {
   User = 'email',
-  SearchNews = 'searchNews',
+  SearchGoods = 'searchGoods',
   Theme = 'theme',
+}
+
+export enum SelectSort {
+  inc = 'increment',
+  dec = 'decrement',
 }

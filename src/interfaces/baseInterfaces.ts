@@ -4,6 +4,7 @@ export interface IRoute {
 }
 
 export interface IRouterRoutes {
-  public: IRoute[];
-  private: IRoute[];
+  global: IRoute[];
+  unAuth: IRoute[];
+  auth: IRoute[];
 }

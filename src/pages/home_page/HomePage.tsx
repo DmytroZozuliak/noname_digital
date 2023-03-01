@@ -1,18 +1,15 @@
 import { Box, Stack, Typography } from '@mui/material';
 import picture from '../../assets/images/2.png';
 import ErrorBoundary from '../../components/ErrorBoundary';
-import { mockFormData } from '../../utils/constants/auth';
 import { developer } from '../../utils/constants/developer';
 import Link from '@mui/material/Link';
 
 const Home = () => {
-  const { password, email } = mockFormData;
-
   return (
     <ErrorBoundary text="Something went wrong. Try to reload the page">
       <Stack marginTop={3}>
-        <Typography variant="h3" fontSize={{ xs: 30, sm: 40, md: 50 }}>
-          Welcome
+        <Typography variant="h1" fontSize={{ xs: 30, sm: 40, md: 50 }}>
+          Welcome to NONAME DIGITAL
         </Typography>
         <Stack
           direction={{ xs: 'column', md: 'row' }}

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
 export const apiPlaceholder = axios.create({
-  baseURL: 'https://jsonplaceholder.typicode.com',
+  baseURL: 'https://dummyjson.com',
   timeout: 1000,
 });

@@ -2,14 +2,15 @@ import { Navigate } from 'react-router-dom';
 import { IRouterRoutes } from '../../interfaces/baseInterfaces';
 import Home from '../../pages/home_page/HomePage';
 import SignInPage from '../../pages/authentication_page';
-import News from '../../pages/news_page';
+import Goods from '../../pages/goods_page';
 import Profile from '../../pages/profile_page';
 import SignUpPage from '../../pages/authentication_page/SignUpPage';
+import Product from '../../pages/product_page';
 
 export enum RoutePath {
   Home = '/',
   Goods = '/goods',
-  GoodsItem = '/goods/:id',
+  Product = '/goods/:id',
   SignIn = '/sign-in',
   SignUp = '/sign-up',
   Profile = '/profile',
@@ -17,19 +18,21 @@ export enum RoutePath {
 }
 
 const routes: IRouterRoutes = {
-  public: [
+  global: [
     {
       path: RoutePath.Home,
       element: <Home />,
     },
     {
       path: RoutePath.Goods,
-      element: <News />,
+      element: <Goods />,
     },
     {
-      path: RoutePath.GoodsItem,
-      element: <News />,
+      path: RoutePath.Product,
+      element: <Product />,
     },
+  ],
+  unAuth: [
     {
       path: RoutePath.SignIn,
       element: <SignInPage />,
@@ -40,13 +43,17 @@ const routes: IRouterRoutes = {
     },
     {
       path: RoutePath.NotFound,
-      element: <Navigate to={RoutePath.Home} replace />,
+      element: <Navigate to={RoutePath.SignIn} replace />,
     },
   ],
-  private: [
+  auth: [
     {
       path: RoutePath.Profile,
       element: <Profile />,
+    },
+    {
+      path: RoutePath.NotFound,
+      element: <Navigate to={RoutePath.Home} replace />,
     },
   ],
 };

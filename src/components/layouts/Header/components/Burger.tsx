@@ -33,9 +33,7 @@ const Burger = () => {
   const renderList = () => (
     <Box>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Typography sx={{ ml: '10px' }}>
-          Menu
-        </Typography>
+        <Typography sx={{ ml: '10px' }}>Menu</Typography>
         <Button onClick={() => setIsOpenDrawer(false)}>
           <CloseIcon sx={{ color: theme === 'dark' ? 'white' : 'black' }} />
         </Button>

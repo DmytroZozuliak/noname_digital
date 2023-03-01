@@ -13,35 +13,38 @@ const Root = () => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      console.log("user onAuthStateChanged", user);
+      console.log('user onAuthStateChanged', user);
       if (user) {
-        const { email, displayName, photoURL } = user
+        const { email, displayName, photoURL } = user;
         // set up user dispatch
         const userInfo = {
           userName: displayName,
           email,
-          userPhoto: photoURL
-        }
+          userPhoto: photoURL,
+        };
         dispatch(userActions.logIn(userInfo));
-        dispatch(snackActions.openSuccessSnack("Successfully logged in"));
+        dispatch(snackActions.openSuccessSnack('Successfully logged in'));
       } else {
         // set up user dispatch null
         dispatch(userActions.logOut());
       }
-    })
+    });
 
-    return () => unsubscribe()
-  }, [auth])
+    return () => unsubscribe();
+  }, [dispatch]);
 
   return (
     <Routes>
-      {routes.public.map((route) => (
+      {routes.global.map((route) => (
         <Route path={route.path} element={route.element} key={route.path} />
       ))}
-      {isLogged &&
-        routes.private.map((route) => (
-          <Route path={route.path} element={route.element} key={route.path} />
-        ))}
+      {isLogged
+        ? routes.auth.map((route) => (
+            <Route path={route.path} element={route.element} key={route.path} />
+          ))
+        : routes.unAuth.map((route) => (
+            <Route path={route.path} element={route.element} key={route.path} />
+          ))}
     </Routes>
   );
 };

@@ -1,26 +1,12 @@
-import { Container, Stack } from '@mui/material';
-import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Container } from '@mui/material';
 import AuthenticationForm from '../../components/Authentication/AuthenticationForm';
-import SignInGoogleButton from '../../components/Authentication/SignInGoogleButton';
 import ErrorBoundary from '../../components/ErrorBoundary';
-import { useTypedSelector } from '../../hooks/redux';
-import { RoutePath } from '../../utils/constants/routes';
 
 const SignUpPage = () => {
-  const isLogged = useTypedSelector((state) => state.user.isLogged);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isLogged) {
-      navigate(RoutePath.Goods);
-    }
-  }, [isLogged, navigate]);
-
   return (
     <ErrorBoundary text="Something went wrong. Try to reload the page">
       <Container maxWidth="sm" sx={{ marginTop: 5 }}>
-        <AuthenticationForm />
+        <AuthenticationForm isLoginPage={false} />
       </Container>
     </ErrorBoundary>
   );

@@ -12,21 +12,26 @@ import { snackActions } from '../../../store/reducers/snackSlice';
 import { RoutePath } from '../../../utils/constants/routes';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { useValidationSchema } from '../../../hooks/useValidationSchema';
-import { mockFormData } from '../../../utils/constants/auth';
 import GoogleButton from 'react-google-button';
 import { themeMode } from '../../../theme/theme';
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+} from 'firebase/auth';
 import { auth } from '../../../firebase';
 import SignInGoogleButton from '../SignInGoogleButton';
 
-const AuthenticationForm = () => {
-  const { pathname } = useLocation()
-  const [login] = useState(pathname.includes('in'))
+interface AuthenticationFormProps {
+  isLoginPage: boolean;
+}
 
+const AuthenticationForm = ({ isLoginPage }: AuthenticationFormProps) => {
   const navigate = useNavigate();
   const dispatch = useTypedDispatch();
   const [showPassword, setShowPassword] = useState(false);
-  const theme = useTypedSelector(state => state.settings.theme)
+  const isLogged = useTypedSelector((state) => state.user.isLogged);
 
   const validationSchema = useValidationSchema();
 
@@ -46,33 +51,27 @@ const AuthenticationForm = () => {
     setShowPassword((prevState) => !prevState);
   };
 
+  useEffect(() => {
+    if (isLogged) {
+      navigate(RoutePath.Goods);
+    }
+  }, [isLogged, navigate]);
+
   const onSubmit: SubmitHandler<FormValues> = async ({ email, password }) => {
-
-    // if (email !== mockFormData.email || password !== mockFormData.password) {
-    //   dispatch(snackActions.openErrorSnack(t('snack_message.failed_user')));
-    //   return;
-    // }
-
-    // dispatch(userActions.logIn({ name: email }));
-    // dispatch(snackActions.openSuccessSnack(t('snack_message.success_user')));
-    // navigate(RoutePath.Profile, { replace: true });
-
     try {
-      if (login) {
+      if (isLoginPage) {
         // Log in (sign in)
-        await signInWithEmailAndPassword(auth, email, password)
+        await signInWithEmailAndPassword(auth, email, password);
       } else {
         // Sign up
-        await createUserWithEmailAndPassword(auth, email, password)
+        await createUserWithEmailAndPassword(auth, email, password);
       }
       navigate(RoutePath.Profile, { replace: true });
-
     } catch (error) {
       if (error instanceof Error) {
         dispatch(snackActions.openErrorSnack(error.message));
       }
     }
-
   };
 
   return (
@@ -90,8 +89,7 @@ const AuthenticationForm = () => {
         <LockOutlinedIcon />
       </Avatar>
       <Typography fontSize={26} variant="h5" mb={5}>
-        {/* {t('forms.auth.title_sin')} */}
-        {login ? 'LOG IN' : "SIGN UP"}
+        {isLoginPage ? 'LOG IN' : 'SIGN UP'}
       </Typography>
       <Controller
         name="email"
@@ -139,13 +137,20 @@ const AuthenticationForm = () => {
         Submit
       </LoadingButton>
 
-      <Stack flexDirection="row" justifyContent="space-between" alignItems="center">
-        {
-          login ?
-            <Link to={RoutePath.SignUp}>Don't have an account yet? Sign up!</Link>
-            :
-            <Link to={RoutePath.SignIn}>Already has an account? Sign in!</Link>
-        }
+      <Stack
+        flexDirection="row"
+        justifyContent="space-between"
+        alignItems="center"
+        width={'100%'}
+        mt={5}
+      >
+        <Link to={isLoginPage ? RoutePath.SignUp : RoutePath.SignIn}>
+          <Button>
+            {isLoginPage
+              ? "Don't have an account yet? Sign up!"
+              : 'Already has an account? Sign in!'}
+          </Button>
+        </Link>
         <SignInGoogleButton />
       </Stack>
     </Stack>

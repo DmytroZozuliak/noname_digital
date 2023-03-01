@@ -14,7 +14,7 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const navigateToNews = () => navigate(RoutePath.Goods);
+  const navigateToGoods = () => navigate(RoutePath.Goods);
   const navigateToProfile = () => navigate(RoutePath.Profile);
   const navigateToHome = () => navigate(RoutePath.Home);
   const btnNavigationClass = (btnLocation: string) => {
@@ -33,7 +33,7 @@ const Header = () => {
                 <HomeIcon />
               </IconButton>
 
-              <IconButton onClick={navigateToNews} className={btnNavigationClass(RoutePath.Goods)}>
+              <IconButton onClick={navigateToGoods} className={btnNavigationClass(RoutePath.Goods)}>
                 <DashboardIcon />
               </IconButton>
 
@@ -58,7 +58,7 @@ const Header = () => {
               </Button>
               <Button
                 className={btnNavigationClass(RoutePath.Goods)}
-                onClick={navigateToNews}
+                onClick={navigateToGoods}
                 startIcon={<DashboardIcon />}
                 color="inherit"
               >
@@ -71,7 +71,7 @@ const Header = () => {
                   startIcon={<AccountBoxIcon />}
                   color="inherit"
                 >
-                  Profile
+                  Personal cabinet
                 </Button>
               )}
             </Box>

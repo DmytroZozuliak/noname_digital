@@ -1,7 +1,7 @@
 body {
   margin: 0;
   &::-webkit-scrollbar {
-    width: 5px;
+    width: 10px;
     background-color: #443e3e;
   }
 
@@ -16,4 +16,8 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  a {
+    text-decoration: none;
+  }
 }

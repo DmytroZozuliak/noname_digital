@@ -1,4 +1,4 @@
-import * as yup from 'yup'
+import * as yup from 'yup';
 
 export const useValidationSchema = () => {
   const validationSchema = yup.object({
@@ -7,18 +7,18 @@ export const useValidationSchema = () => {
       .string()
       .trim()
       .test('password', "Password mustn't contain the whitespaces", (value) => {
-        return !/\s/.test(value as string)
+        return !/\s/.test(value as string);
       })
       .required('Password is required')
       .test(
         'password',
         "Password mustn't contain the following characters '@, #, $, %, ^, &, *'",
         (value) => {
-          return !/[\&@#$%\^\*]/.test(value as string)
+          return !/[\&@#$%\^\*]/.test(value as string);
         }
       )
       .min(4, 'Password must be 4 or more characters'),
-  })
+  });
 
-  return validationSchema
-}
+  return validationSchema;
+};

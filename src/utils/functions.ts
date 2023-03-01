@@ -9,3 +9,7 @@ export const getSubstring = (string: string): string => {
   const subString = string.substring(0, lastIndex);
   return stringLength > lastIndex ? `${subString}...` : subString;
 };
+
+export const getDynamicPath = (path: string, replacedItem: number) => {
+  return path.replace(':id', replacedItem.toString());
+};
