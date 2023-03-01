@@ -1,5 +1,4 @@
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import React from 'react';
 import GoogleButton from 'react-google-button';
 import { auth } from '../../firebase';
 import { useTypedSelector } from '../../hooks/redux';

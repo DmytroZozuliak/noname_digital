@@ -1,8 +1,6 @@
 import {
-  Button,
   Card,
   CardActionArea,
-  CardActions,
   CardContent,
   CardMedia,
   Grid,
@@ -19,7 +17,6 @@ import { useTypedDispatch, useTypedSelector } from '../../hooks/redux';
 import { GoodsResponseData } from '../../interfaces/apiInterfaces';
 import { RoutePath } from '../../utils/constants/routes';
 import { getDynamicPath } from '../../utils/functions';
-import { useMemo } from 'react';
 import { goodsActions } from '../../store/reducers/goodsSlice';
 import { modalActions } from '../../store/reducers/modalSlice';
 
@@ -36,7 +33,6 @@ const GoodsCard = ({ goods }: GoodsCardProps) => {
   const shoppingItemCount = shoppingCart[goods.id];
 
   const addToCart = () => {
-    // console.log('shoppingItem ', shoppingItem);
     if (!isLogged) {
       dispatch(modalActions.openModal());
       return;

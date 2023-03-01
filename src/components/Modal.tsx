@@ -1,5 +1,12 @@
-import { Button, Dialog, DialogTitle, Typography } from '@mui/material';
-import { useState } from 'react';
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  Typography,
+} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useTypedDispatch, useTypedSelector } from '../hooks/redux';
 import { modalActions } from '../store/reducers/modalSlice';
@@ -13,17 +20,30 @@ const Modal = () => {
   const handleClose = () => {
     dispatch(modalActions.closeModal());
   };
-  const handleRedirect = () => {
+  const handleRedirectLogIn = () => {
     dispatch(modalActions.closeModal());
     navigate(RoutePath.SignIn);
   };
+  const handleRedirectSignUp = () => {
+    dispatch(modalActions.closeModal());
+    navigate(RoutePath.SignUp);
+  };
 
   return (
-    <Dialog onClose={handleClose} open={isModalOpen}>
+    <Dialog onClose={handleClose} open={isModalOpen} sx={{ padding: 15 }}>
       <DialogTitle>We are sorry!</DialogTitle>
-      <Typography>You cannot add products to your cart, because you are not sign in</Typography>
-      <Button onClick={handleRedirect}>Sign in</Button>
-      <Typography>{message}</Typography>
+      <DialogContent>
+        <DialogContentText>
+          You cannot add products to your cart, because you are not logged in
+        </DialogContentText>
+        <DialogContentText>{message}</DialogContentText>
+
+        <Typography>{message}</Typography>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleRedirectLogIn}>Log in</Button>
+        <Button onClick={handleRedirectSignUp}>Sign up</Button>
+      </DialogActions>
     </Dialog>
   );
 };

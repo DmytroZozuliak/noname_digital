@@ -16,6 +16,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useTypedDispatch, useTypedSelector } from '../../hooks/redux';
 import { goodsActions } from '../../store/reducers/goodsSlice';
+import { modalActions } from '../../store/reducers/modalSlice';
 
 interface LocationState {
   product: GoodsResponseData;
@@ -34,9 +35,17 @@ const ProductPage = () => {
   const amount = shoppingCart[product.id] ?? 0;
 
   const addToCartHandler = () => {
+    if (!isLogged) {
+      dispatch(modalActions.openModal());
+      return;
+    }
     dispatch(goodsActions.addProductToCart({ id: product.id }));
   };
   const removeFromCartHandler = () => {
+    if (!isLogged) {
+      dispatch(modalActions.openModal());
+      return;
+    }
     dispatch(goodsActions.removeProductFromCart({ id: product.id }));
   };
 
@@ -84,13 +93,11 @@ const ProductPage = () => {
             </Stack>
             <Divider variant="middle" />
 
-            {isLogged && (
-              <Stack my={2} flexDirection="row" alignItems="center" gap={2}>
-                <RemoveIcon onClick={removeFromCartHandler} fontSize="large" />
-                <Typography fontSize={25}>{amount}</Typography>
-                <AddIcon onClick={addToCartHandler} fontSize="large" />
-              </Stack>
-            )}
+            <Stack my={2} flexDirection="row" alignItems="center" gap={2}>
+              <RemoveIcon onClick={removeFromCartHandler} fontSize="large" />
+              <Typography fontSize={25}>{amount}</Typography>
+              <AddIcon onClick={addToCartHandler} fontSize="large" />
+            </Stack>
 
             <Stack my={2}>
               <Typography variant="h5">Price:</Typography>
@@ -102,7 +109,7 @@ const ProductPage = () => {
                   Price: {product.price}$
                 </Typography>
               </Stack>
-              {isLogged && (
+              {amount !== 0 && (
                 <Stack my={2}>
                   <Typography variant="body1" color="coral" textAlign="right" fontSize={25}>
                     Total price: {product.price * amount}$

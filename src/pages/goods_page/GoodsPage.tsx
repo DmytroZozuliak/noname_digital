@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Button,
   FormControl,
   Grid,
   Input,
@@ -13,7 +12,6 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useMemo, useState } from 'react';
-import { Box } from '@mui/system';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import GoodsCard from '../../components/GoodsCard';
 import { useTypedDispatch, useTypedSelector } from '../../hooks/redux';
@@ -21,7 +19,6 @@ import { fetchGoods, goodsActions } from '../../store/reducers/goodsSlice';
 import { useDebounceValue } from '../../hooks/useDebounceValue';
 import { searchGoodsStorage } from '../../utils/localStorageModels';
 import Loader from '../../components/Loader';
-import { useNavigate } from 'react-router-dom';
 import { categories } from '../../utils/constants/categories';
 import { SelectSort } from '../../utils/constants/enums';
 
@@ -44,7 +41,6 @@ const GoodsPage = () => {
         const searchFiltered = product.title.toLowerCase().includes(debouncedSearch.toLowerCase());
         const searchCategory = product.category.includes(category);
         return searchFiltered && searchCategory;
-        //
       })
       .sort((a, b) => {
         if (price === SelectSort.dec) {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Avatar, Button, IconButton, Stack, TextField, Typography } from '@mui/material';
 import { VisibilityOff, Visibility } from '@mui/icons-material';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -7,19 +7,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormValues } from '../../../interfaces/formInterfaces';
 import { useTypedDispatch, useTypedSelector } from '../../../hooks/redux';
-import { userActions } from '../../../store/reducers/userSlice';
 import { snackActions } from '../../../store/reducers/snackSlice';
 import { RoutePath } from '../../../utils/constants/routes';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { useValidationSchema } from '../../../hooks/useValidationSchema';
-import GoogleButton from 'react-google-button';
-import { themeMode } from '../../../theme/theme';
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut,
-} from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../firebase';
 import SignInGoogleButton from '../SignInGoogleButton';
 
