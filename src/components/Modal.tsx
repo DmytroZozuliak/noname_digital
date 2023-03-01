@@ -7,6 +7,7 @@ import {
   DialogContentText,
   Typography,
 } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
 import { useTypedDispatch, useTypedSelector } from '../hooks/redux';
 import { modalActions } from '../store/reducers/modalSlice';
@@ -31,6 +32,11 @@ const Modal = () => {
 
   return (
     <Dialog onClose={handleClose} open={isModalOpen} sx={{ padding: 15 }}>
+      <CloseIcon
+        onClick={() => dispatch(modalActions.closeModal())}
+        sx={{ position: 'absolute', right: 0, top: 0, cursor: 'pointer' }}
+        fontSize="large"
+      />
       <DialogTitle>We are sorry!</DialogTitle>
       <DialogContent>
         <DialogContentText>
