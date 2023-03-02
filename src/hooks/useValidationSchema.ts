@@ -17,7 +17,7 @@ export const useValidationSchema = () => {
           return !/[\&@#$%\^\*]/.test(value as string);
         }
       )
-      .min(4, 'Password must be 4 or more characters'),
+      .min(6, 'Password must be 6 or more characters'),
   });
 
   return validationSchema;
