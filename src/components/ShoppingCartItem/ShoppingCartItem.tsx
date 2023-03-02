@@ -54,11 +54,12 @@ const ShoppingCartItem = ({ id, amount }: ShoppingCartItemProps) => {
             <Typography fontSize={25}>{amount}</Typography>
             <AddIcon onClick={addToCartHandler} fontSize="large" />
           </Stack>
-          <Stack width={220} display={{ md: 'block', xs: 'none' }}>
-            <Typography>{getSubstring(product.description)}</Typography>
+          <Stack display={{ md: 'block', xs: 'none' }}>
+            <Typography>{product.description}</Typography>
+            {/* <Typography>{getSubstring(product.description)}</Typography> */}
           </Stack>
           <Stack ml="auto" justifySelf="end">
-            {amount * product.price} $
+            <Typography fontSize={20}>{amount * product.price}&nbsp;$</Typography>
           </Stack>
         </Stack>
       </Stack>

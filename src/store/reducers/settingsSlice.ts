@@ -1,5 +1,5 @@
 import { PaletteMode } from '@mui/material';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { themeMode } from '../../theme/theme';
 import { themeStorage } from '../../utils/localStorageModels';
 

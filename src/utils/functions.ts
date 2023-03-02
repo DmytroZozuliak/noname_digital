@@ -5,7 +5,7 @@ export const stringAvatar = (name: string): string => {
 
 export const getSubstring = (string: string): string => {
   const stringLength = string.length;
-  const lastIndex = 20;
+  const lastIndex = 40;
   const subString = string.substring(0, lastIndex);
   return stringLength > lastIndex ? `${subString}...` : subString;
 };

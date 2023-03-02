@@ -1,6 +1,7 @@
 import {
   Button,
   Divider,
+  IconButton,
   ImageList,
   ImageListItem,
   Rating,
@@ -94,9 +95,13 @@ const ProductPage = () => {
             <Divider variant="middle" />
 
             <Stack my={2} flexDirection="row" alignItems="center" gap={2}>
-              <RemoveIcon onClick={removeFromCartHandler} fontSize="large" />
+              <IconButton onClick={removeFromCartHandler} aria-label="remove">
+                <RemoveIcon fontSize="large" />
+              </IconButton>
               <Typography fontSize={25}>{amount}</Typography>
-              <AddIcon onClick={addToCartHandler} fontSize="large" />
+              <IconButton onClick={addToCartHandler} aria-label="add">
+                <AddIcon fontSize="large" />
+              </IconButton>
             </Stack>
 
             <Stack my={2}>

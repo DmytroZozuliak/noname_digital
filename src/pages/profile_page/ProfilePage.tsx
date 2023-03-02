@@ -37,7 +37,9 @@ const Profile = () => {
               ))}
               {amountTotal !== 0 && (
                 <Stack my={3} ml="auto">
-                  <Typography color="coral">Total price: {amountTotal} $</Typography>
+                  <Typography fontSize={20} color="coral">
+                    Total price: {amountTotal} $
+                  </Typography>
                 </Stack>
               )}
             </>
