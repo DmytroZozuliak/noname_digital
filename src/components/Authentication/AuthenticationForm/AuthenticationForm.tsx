@@ -130,10 +130,11 @@ const AuthenticationForm = ({ isLoginPage }: AuthenticationFormProps) => {
       </LoadingButton>
 
       <Stack
-        flexDirection="row"
+        flexDirection={{ md: 'row', xs: 'column' }}
+        gap={3}
         justifyContent="space-between"
         alignItems="center"
-        width={'100%'}
+        width="100%"
         mt={5}
       >
         <Link to={isLoginPage ? RoutePath.SignUp : RoutePath.SignIn}>
